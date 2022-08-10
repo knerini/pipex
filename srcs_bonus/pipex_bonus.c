@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 17:28:06 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/08 15:39:15 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/09 16:12:06 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,18 +96,23 @@ void	parent_process(t_pipex *pipex)
 int	main(int ac, char **av, char **envp)
 {
 	t_pipex	pipex;
+	int		case;
 
 	if (ac < 5)
 	{
 		ft_printf("Error : too few arguments\n");
 		return (0);
 	}
-	if (ac > 5)
+	if (ft_strncmp(av[1], "here_doc", 9) != 0)
+		case = 0;
+	else if (ft_strncmp(av[1], "here_doc", 9) == 0 && ac >= 6)
+		case = 1;
+	else if (ft_strncmp(av[1], "here_doc", 9) == 0 && ac < 6)
 	{
-		ft_printf("Error : too many arguments\n");
+		ft_printf("Error : too few arguments to handle the here_doc\n");
 		return (0);
 	}
-	pipex = init_struct(av, envp, ac);
+	pipex = init_struct(av, envp, ac, case);
 	parent_process(&pipex);
 	// system ("leaks pipex");
 	return (0);

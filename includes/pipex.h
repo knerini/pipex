@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 17:46:13 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/07 13:45:45 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/09 16:12:45 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef	struct s_child
 }	t_child;
 
 //-----STRUCT-------
-t_pipex	init_struct(char **av, char **envp, int ac);
+t_pipex	init_struct(char **av, char **envp, int ac, int case);
 t_child	init_struct_child(t_pipex *pipex, int index);
 
 //-------PATH-------
@@ -71,4 +71,3 @@ void	dup_stdin(int index, int **pipes, int in);
 void	dup_stdout(int index, int **pipes, int out);
 
 #endif
-

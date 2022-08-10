@@ -1,8 +1,10 @@
 NAME			=	pipex.a
 
 SRCS			=	srcs/pipex.c srcs/struct.c srcs/path.c srcs/arrays.c srcs/files.c srcs/dup_std.c
+SRCS_B			=	srcs_bonus/pipex_bonus.c srcs_bonus/struct_bonus.c srcs_bonus/path_bonus.c srcs_bonus/arrays_bonus.c srcs_bonus/files_bonus.c srcs_bonus/dup_std_bonus.c
 
 OBJS			=	$(SRCS:.c=.o)
+OBJS_B			=	$(SRCS_B:.c=.o)
 
 INCLUDES		= -I./includes/
 HEADERS			= includes/libft.h includes/pipex.h
@@ -28,6 +30,15 @@ RESET			=	"\033[0m"
 
 all:			$(NAME)
 
+bonus:			$(OBJS_B) $(HEADERS)
+					@make all -C ${LIBS}
+					@echo ${YELLOW}"'libft' updated =^.^=\n"${RESET}
+					@${CC} -o ${NAME} ${OBJS_B} ${LIBS}libft.a
+					@echo ${GREEN}"><((º>"${RESET}${BLUE}"  ><((º>"${RESET}${MAGENTA}"  ><((º>"${RESET} \
+					${CYAN}"PiPeX BoNuS CoMPiLeD"${RESET} \
+					${MAGENTA}"<º))><  "${RESET}${BLUE}"<º))><  "${RESET}${GREEN}"<º))><\n"${RESET}
+
+
 $(NAME):		$(OBJS) ${HEADERS}
 					@make all -C ${LIBS}
 					@echo ${YELLOW}"'libft' updated =^.^=\n"${RESET}
@@ -39,7 +50,7 @@ $(NAME):		$(OBJS) ${HEADERS}
 clean:
 					@make clean -C ${LIBS}
 					@echo ${CYAN}"Clean 'libft' dirs and objects ="${RESET} ${GREEN}"OK"${RESET}
-					@${RM} ${OBJS}
+					@${RM} ${OBJS} ${OBJS_B}
 					@echo ${CYAN}"Clean 'pipex' objects ="${RESET} ${GREEN}"OK"${RESET}
 					@${RM} ${DEL_DIR} ${DIR_OBJS}
 
@@ -51,4 +62,4 @@ fclean:			clean
 
 re:				clean fclean all
 
-.PHONY:			all clean fclean re
+.PHONY:			all clean fclean re bonus
