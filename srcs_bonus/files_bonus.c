@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 17:12:57 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/09 16:59:21 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/11 15:49:00 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,21 @@ int	is_stdout(int index, t_pipex *pipex)
 	int	out;
 
 	if (index == (pipex->process - 1))
-		out = open_create_outfile(pipex->cmd[pipex->ac]);
+		out = open_create_outfile_bonus(pipex->cmd[pipex->ac], pipex->cases);
 	else
 		out = 0;
 	return (out);
 }
 
-int	open_create_outfile(char *str)
+int	open_create_outfile_bonus(char *str, int cases)
 {
 	int	out;
 
-	out = open(str, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	out = 0;
+	if (cases == 0)
+		out = open(str, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	else if (cases == 1)
+		out = open(str, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (out == -1)
 	{
 		ft_printf("Open() call outfile failed : %s\n", strerror(errno));
@@ -62,22 +66,27 @@ int	open_infile(char *str)
 
 int	here_doc_file(char *limiter)
 {
-	int	in;
 	char	*temp;
+	int		tmp;
 
-	temp = NULL;
-	if (open("temporary", O_CREAT | O_WRONLY | O_TRUNC, 0644) == -1)
+	tmp = open("temporary", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if ( tmp == -1)
 	{
 		ft_printf("Open() call temporary file for here_doc failed : %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
 	}
+	temp = get_next_line(0);
 	while (ft_strncmp(temp, limiter, ft_strlen(limiter)) != 0)
 	{
-		temp = get_next_line(0);
-		ft_putstr_fd(temp, "temporary");
+		ft_putstr_fd(temp, tmp);
 		if (temp)
 			free (temp);
+		temp = get_next_line(0);
 	}
-	close("temporary"); //error management to do
-	return (open_infile("temporary", O_RDONLY));
+	if (close(tmp) == -1)
+	{
+		ft_printf("Close() call here_doc temporary file failed : %s", strerror(errno));
+		exit(EXIT_FAILURE);
+	}
+	return (open_infile("temporary"));
 }

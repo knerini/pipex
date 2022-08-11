@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 17:28:06 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/09 16:12:06 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/11 15:45:54 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	child_process(t_pipex *pipex, int index, int **pipes)
 	dup_stdin(index, pipes, in);
 	dup_stdout(index, pipes, out);
 	closing_management(pipex, pipes);
+	if (pipex->cases == 1)
+		unlink("temporary");
 	execve(valid_path, c_path.options, pipex->env);
 	ft_printf("Execve() call failed : %s\n", strerror(errno));
 	exit(EXIT_FAILURE);
@@ -87,7 +89,11 @@ void	parent_process(t_pipex *pipex)
 			child_process(pipex, i, pipes);
 	}
 	closing_management(pipex, pipes);
-	close(pipex->fd_infile); //error management to do
+	if (close(pipex->fd_infile) == -1)
+	{
+		ft_printf("Close() call infile parent's process failed : %s", strerror(errno));
+		exit(EXIT_FAILURE);
+	}
 	waiting_management(pipex, pids);
 	free_int_array(pipes, pipex->process);
 	return ;
@@ -96,23 +102,9 @@ void	parent_process(t_pipex *pipex)
 int	main(int ac, char **av, char **envp)
 {
 	t_pipex	pipex;
-	int		case;
 
-	if (ac < 5)
-	{
-		ft_printf("Error : too few arguments\n");
-		return (0);
-	}
-	if (ft_strncmp(av[1], "here_doc", 9) != 0)
-		case = 0;
-	else if (ft_strncmp(av[1], "here_doc", 9) == 0 && ac >= 6)
-		case = 1;
-	else if (ft_strncmp(av[1], "here_doc", 9) == 0 && ac < 6)
-	{
-		ft_printf("Error : too few arguments to handle the here_doc\n");
-		return (0);
-	}
-	pipex = init_struct(av, envp, ac, case);
+	parsing(ac, av, envp);
+	pipex = init_struct(av, envp, ac);
 	parent_process(&pipex);
 	// system ("leaks pipex");
 	return (0);

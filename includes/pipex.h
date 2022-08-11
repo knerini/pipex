@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 17:46:13 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/09 16:12:45 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/11 15:48:01 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef	struct s_pipex
 	char	**cmd;
 	char	**env;
 	char	*env_path;
+	int		cases;
 	int		ac;
 	int		fd_infile;
 	int		process;
@@ -39,7 +40,7 @@ typedef	struct s_child
 }	t_child;
 
 //-----STRUCT-------
-t_pipex	init_struct(char **av, char **envp, int ac, int case);
+t_pipex	init_struct(char **av, char **envp, int ac);
 t_child	init_struct_child(t_pipex *pipex, int index);
 
 //-------PATH-------
@@ -61,13 +62,18 @@ void	free_int_array(int **array, int nb_pipes);
 void	free_char_array(char **array);
 
 //----FILES-----
+int		here_doc_file(char *limiter);
 int		is_stdin(int index, t_pipex *pip_arg);
 int		is_stdout(int index, t_pipex *pip_arg);
 int		open_create_outfile(char *str);
+int		open_create_outfile_bonus(char *str, int cases);
 int		open_infile(char *str);
 
 //-----DUP_STD-----
 void	dup_stdin(int index, int **pipes, int in);
 void	dup_stdout(int index, int **pipes, int out);
+
+//------PARSING----
+void	parsing(int ac, char **av, char **envp);
 
 #endif
