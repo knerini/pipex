@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 11:15:11 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/14 14:53:28 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/14 18:54:32 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	*checked_path(t_child *c_path)
 	}
 	if (valid_path == NULL)
 	{
-		ft_printf("No valid path found or access() call denied\n");
+		ft_printf("Command not found : acces() failed or no valid path\n");
 		exit(EXIT_FAILURE);
 	}
 	return (valid_path);
