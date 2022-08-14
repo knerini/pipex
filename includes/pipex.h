@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 17:46:13 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/11 15:48:01 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/14 18:08:33 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include "libft.h"
 
 //------STRUCT-----
-typedef	struct s_pipex
+typedef struct s_pipex
 {
 	char	**cmd;
 	char	**env;
@@ -28,10 +28,11 @@ typedef	struct s_pipex
 	int		cases;
 	int		ac;
 	int		fd_infile;
+	int		fd_outfile;
 	int		process;
 }			t_pipex;
 
-typedef	struct s_child
+typedef struct s_child
 {
 	char	**options;
 	char	**paths_array;
@@ -62,18 +63,19 @@ void	free_int_array(int **array, int nb_pipes);
 void	free_char_array(char **array);
 
 //----FILES-----
-int		here_doc_file(char *limiter);
 int		is_stdin(int index, t_pipex *pip_arg);
 int		is_stdout(int index, t_pipex *pip_arg);
-int		open_create_outfile(char *str);
-int		open_create_outfile_bonus(char *str, int cases);
-int		open_infile(char *str);
+int		open_create_outfile(char *name);
+int		open_create_outfile_bonus(char *name, int cases);
+int		open_infile(char *name);
+void	closing_files(int in, int out);
 
 //-----DUP_STD-----
 void	dup_stdin(int index, int **pipes, int in);
 void	dup_stdout(int index, int **pipes, int out);
 
 //------PARSING----
+int		here_doc_file(char *limiter);
 void	parsing(int ac, char **av, char **envp);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 17:28:06 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/11 15:45:54 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/14 18:07:14 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ void	child_process(t_pipex *pipex, int index, int **pipes)
 	t_child	c_path;
 
 	c_path = init_struct_child(pipex, index);
-	valid_path = checked_path(&c_path);
+	if (ft_strchr(c_path.options[0], '/'))
+		valid_path = c_path.options[0];
+	else
+		valid_path = checked_path(&c_path);
 	in = is_stdin(index, pipex);
 	out = is_stdout(index, pipex);
 	dup_stdin(index, pipes, in);
@@ -63,6 +66,8 @@ void	child_process(t_pipex *pipex, int index, int **pipes)
 	closing_management(pipex, pipes);
 	if (pipex->cases == 1)
 		unlink("temporary");
+	if (in == -1)
+		exit(EXIT_FAILURE);
 	execve(valid_path, c_path.options, pipex->env);
 	ft_printf("Execve() call failed : %s\n", strerror(errno));
 	exit(EXIT_FAILURE);
@@ -89,11 +94,7 @@ void	parent_process(t_pipex *pipex)
 			child_process(pipex, i, pipes);
 	}
 	closing_management(pipex, pipes);
-	if (close(pipex->fd_infile) == -1)
-	{
-		ft_printf("Close() call infile parent's process failed : %s", strerror(errno));
-		exit(EXIT_FAILURE);
-	}
+	closing_files(pipex->fd_infile, pipex->fd_outfile);
 	waiting_management(pipex, pids);
 	free_int_array(pipes, pipex->process);
 	return ;
@@ -106,6 +107,5 @@ int	main(int ac, char **av, char **envp)
 	parsing(ac, av, envp);
 	pipex = init_struct(av, envp, ac);
 	parent_process(&pipex);
-	// system ("leaks pipex");
 	return (0);
 }
