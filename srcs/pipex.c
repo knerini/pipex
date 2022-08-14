@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 17:28:06 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/14 15:00:31 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/14 18:19:41 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	child_process(t_pipex *pipex, int index, int **pipes)
 	dup_stdin(index, pipes, in);
 	dup_stdout(index, pipes, out);
 	closing_management(pipex, pipes);
+	if (in == -1)
+		exit(EXIT_FAILURE);
 	execve(valid_path, c_path.options, pipex->env);
 	ft_printf("Execve() call failed : %s\n", strerror(errno));
 	exit(EXIT_FAILURE);

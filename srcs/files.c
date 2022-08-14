@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 17:12:57 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/14 12:10:42 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/14 18:18:57 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	open_infile(char *name)
 	if (in == -1)
 	{
 		ft_printf("Open() call infile failed : %s\n", strerror(errno));
-		return (0);
+		return (-1);
 	}
 	return (in);
 }
