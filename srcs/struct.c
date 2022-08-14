@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 13:53:47 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/07 11:31:35 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/14 15:01:09 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_pipex	init_struct(char **av, char **envp, int ac)
 	pipex.env = envp;
 	pipex.env_path = parsing_env(envp);
 	pipex.ac = ac - 1;
+	pipex.fd_outfile = open_create_outfile(av[ac - 1]);
 	pipex.fd_infile = open_infile(av[1]);
 	pipex.process = ac - 3;
 	return (pipex);

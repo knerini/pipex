@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 17:12:57 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/02 18:59:24 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/14 12:10:42 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,17 @@ int	is_stdout(int index, t_pipex *pipex)
 	int	out;
 
 	if (index == (pipex->process - 1))
-		out = open_create_outfile(pipex->cmd[pipex->ac]);
+		out = pipex->fd_outfile;
 	else
 		out = 0;
 	return (out);
 }
 
-int	open_create_outfile(char *str)
+int	open_create_outfile(char *name)
 {
 	int	out;
 
-	out = open(str, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	out = open(name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (out == -1)
 	{
 		ft_printf("Open() call outfile failed : %s\n", strerror(errno));
@@ -47,15 +47,25 @@ int	open_create_outfile(char *str)
 	return (out);
 }
 
-int	open_infile(char *str)
+int	open_infile(char *name)
 {
 	int	in;
 
-	in = open(str, O_RDONLY);
+	in = open(name, O_RDONLY);
 	if (in == -1)
 	{
 		ft_printf("Open() call infile failed : %s\n", strerror(errno));
-		exit(EXIT_FAILURE);
+		return (0);
 	}
 	return (in);
+}
+
+void	closing_files(int in, int out)
+{
+	if (close(in) == -1 || close(out) == -1)
+	{
+		ft_printf("Close() call files in/out failed : %s\n", strerror(errno));
+		exit(EXIT_FAILURE);
+	}
+	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 11:15:11 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/07 13:03:09 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/14 14:53:28 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ char	**construct_path(char *env_path, char *shell_cmd)
 
 char	*checked_path(t_child *c_path)
 {
-	char	*valid_path;
 	int		i;
+	char	*valid_path;
 
 	i = 0;
 	valid_path = NULL;

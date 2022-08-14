@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 17:28:06 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/08 15:39:15 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/14 15:00:31 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ void	child_process(t_pipex *pipex, int index, int **pipes)
 	t_child	c_path;
 
 	c_path = init_struct_child(pipex, index);
-	valid_path = checked_path(&c_path);
+	if (strchr(c_path.options[0], '/'))
+		valid_path = c_path.options[0];
+	else
+		valid_path = checked_path(&c_path);
 	in = is_stdin(index, pipex);
 	out = is_stdout(index, pipex);
 	dup_stdin(index, pipes, in);
@@ -87,7 +90,7 @@ void	parent_process(t_pipex *pipex)
 			child_process(pipex, i, pipes);
 	}
 	closing_management(pipex, pipes);
-	close(pipex->fd_infile); //error management to do
+	closing_files(pipex->fd_infile, pipex->fd_outfile);
 	waiting_management(pipex, pids);
 	free_int_array(pipes, pipex->process);
 	return ;
@@ -109,6 +112,5 @@ int	main(int ac, char **av, char **envp)
 	}
 	pipex = init_struct(av, envp, ac);
 	parent_process(&pipex);
-	// system ("leaks pipex");
 	return (0);
 }

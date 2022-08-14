@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 18:56:34 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/02 18:57:08 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/14 12:06:16 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ void	dup_stdin(int index, int **pipes, int in)
 		if (dup2(in, STDIN_FILENO) == -1)
 		{
 			ft_printf("Dup() call failed : %s", strerror(errno));
+			exit(EXIT_FAILURE);
+		}
+		if (close(in) == -1)
+		{
+			ft_printf("Close() call infile failed : %s", strerror(errno));
 			exit(EXIT_FAILURE);
 		}
 	}
