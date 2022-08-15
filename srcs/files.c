@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 17:12:57 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/14 18:18:57 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/15 17:57:58 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,9 @@ int	open_create_outfile(char *name)
 	out = open(name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (out == -1)
 	{
-		ft_printf("Open() call outfile failed : %s\n", strerror(errno));
-		exit(EXIT_FAILURE);
+		ft_putstr_fd(strerror(errno), 2);
+		ft_printf(": %s\n", name);
+		return (-1);
 	}
 	return (out);
 }
@@ -54,8 +55,9 @@ int	open_infile(char *name)
 	in = open(name, O_RDONLY);
 	if (in == -1)
 	{
-		ft_printf("Open() call infile failed : %s\n", strerror(errno));
-		return (-1);
+		ft_putstr_fd(strerror(errno), 2);
+		ft_printf(": %s\n", name);
+		return (0);
 	}
 	return (in);
 }
@@ -63,9 +65,6 @@ int	open_infile(char *name)
 void	closing_files(int in, int out)
 {
 	if (close(in) == -1 || close(out) == -1)
-	{
-		ft_printf("Close() call files in/out failed : %s\n", strerror(errno));
 		exit(EXIT_FAILURE);
-	}
 	return ;
 }

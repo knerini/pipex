@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 11:15:11 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/14 18:54:32 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/15 16:32:32 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,9 @@ char	*checked_path(t_child *c_path)
 	}
 	if (valid_path == NULL)
 	{
-		ft_printf("Command not found : acces() failed or no valid path\n");
-		exit(EXIT_FAILURE);
+		ft_putstr_fd("command not found", 2);
+		ft_printf(": %s\n", c_path->shell_cmd);
+		exit(127);
 	}
 	return (valid_path);
 }

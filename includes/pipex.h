@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 17:46:13 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/14 18:08:33 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/15 15:50:27 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ char	**construct_path(char *env_path, char *shell_cmd);
 char	**fill_array(char **split_tab, char *cmd);
 
 //-----PIPEX----
+int		parent_process(t_pipex *pip_arg);
+int		waiting_management(t_pipex *pip_arg, int *pids);
 void	child_process(t_pipex *pip_arg, int index, int **pipes);
-void	parent_process(t_pipex *pip_arg);
 void	closing_management(t_pipex *pip_arg, int **pipes);
-void	waiting_management(t_pipex *pip_arg, int *pids);
 
 //-----ARRAYS----
 int		**pipe_array(int nb_pipes);

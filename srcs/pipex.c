@@ -6,29 +6,28 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 17:28:06 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/14 18:19:41 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/15 17:18:49 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	waiting_management(t_pipex *pipex, int *pids)
+int	waiting_management(t_pipex *pipex, int *pids)
 {
 	int	i;
 	int	wait_status;
+	int error;
 
+	error = 0;
 	i = -1;
 	while (++i < pipex->process)
 	{
-		wait_status = waitpid(pids[i], NULL, 0);
+		wait_status = waitpid(pids[i], &error, 0);
 		if (wait_status == -1)
-		{
-			ft_printf("Waitpid() : %s\n", strerror(errno));
 			exit(EXIT_FAILURE);
-		}
 	}
 	free(pids);
-	return ;
+	return (WEXITSTATUS(error)) ;
 }
 
 void	closing_management(t_pipex *pipex, int **process)
@@ -39,10 +38,7 @@ void	closing_management(t_pipex *pipex, int **process)
 	while (++i < pipex->process)
 	{
 		if (close(process[i][0]) == -1 || close(process[i][1]) == -1)
-		{
-			ft_printf("Close() call failed : %s\n", strerror(errno));
 			exit(EXIT_FAILURE);
-		}
 	}
 	return ;
 }
@@ -67,14 +63,14 @@ void	child_process(t_pipex *pipex, int index, int **pipes)
 	if (in == -1)
 		exit(EXIT_FAILURE);
 	execve(valid_path, c_path.options, pipex->env);
-	ft_printf("Execve() call failed : %s\n", strerror(errno));
 	exit(EXIT_FAILURE);
 }
 
-void	parent_process(t_pipex *pipex)
+int	parent_process(t_pipex *pipex)
 {
 	pid_t	*pids;
 	int		**pipes;
+	int		exit_code;
 	int		i;
 
 	pids = pid_array(pipex->process);
@@ -84,23 +80,21 @@ void	parent_process(t_pipex *pipex)
 	{
 		pids[i] = fork();
 		if (pids[i] == -1)
-		{
-			ft_printf("Fork() call failed : %s", strerror(errno));
 			exit(EXIT_FAILURE);
-		}
 		else if (pids[i] == 0)
 			child_process(pipex, i, pipes);
 	}
 	closing_management(pipex, pipes);
 	closing_files(pipex->fd_infile, pipex->fd_outfile);
-	waiting_management(pipex, pids);
+	exit_code = waiting_management(pipex, pids);
 	free_int_array(pipes, pipex->process);
-	return ;
+	return (exit_code);
 }
 
 int	main(int ac, char **av, char **envp)
 {
 	t_pipex	pipex;
+	int 	exit_code;
 
 	if (ac < 5)
 	{
@@ -113,6 +107,6 @@ int	main(int ac, char **av, char **envp)
 		return (0);
 	}
 	pipex = init_struct(av, envp, ac);
-	parent_process(&pipex);
-	return (0);
+	exit_code = parent_process(&pipex);
+	return (exit_code);
 }
