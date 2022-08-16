@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 17:28:06 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/15 17:18:49 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/16 17:54:02 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	waiting_management(t_pipex *pipex, int *pids)
 {
 	int	i;
 	int	wait_status;
-	int error;
+	int	error;
 
 	error = 0;
 	i = -1;
@@ -27,7 +27,7 @@ int	waiting_management(t_pipex *pipex, int *pids)
 			exit(EXIT_FAILURE);
 	}
 	free(pids);
-	return (WEXITSTATUS(error)) ;
+	return (WEXITSTATUS(error));
 }
 
 void	closing_management(t_pipex *pipex, int **process)
@@ -94,7 +94,7 @@ int	parent_process(t_pipex *pipex)
 int	main(int ac, char **av, char **envp)
 {
 	t_pipex	pipex;
-	int 	exit_code;
+	int		exit_code;
 
 	if (ac < 5)
 	{
