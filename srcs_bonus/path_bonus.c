@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 11:15:11 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/15 16:37:40 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/19 16:16:18 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,27 @@ char	*checked_path(t_child *c_path)
 		else
 			i++;
 	}
+	free_char_array(c_path->paths_array);
 	if (valid_path == NULL)
 	{
 		ft_putstr_fd("Command not found", 2);
 		ft_printf(": %s\n", c_path->shell_cmd);
 		exit(127);
 	}
+	return (valid_path);
+}
+
+char	*tested_path(char *abs_path)
+{
+	char	*valid_path;
+
+	valid_path = NULL;
+	if (access(abs_path, F_OK | X_OK) == -1)
+	{
+		ft_putstr_fd(strerror(errno), 2);
+		ft_printf(": %s\n", abs_path);
+		exit(127);
+	}
+	valid_path = abs_path;
 	return (valid_path);
 }

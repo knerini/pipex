@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 13:04:02 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/15 15:55:13 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/19 15:06:16 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,14 @@ int	here_doc_file(char *limiter)
 	char	*temp;
 	int		tmp;
 
-	tmp = open("temporary", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	tmp = open(".temporary", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (tmp == -1)
 		exit(EXIT_FAILURE);
+	write(1, "here_doc: ", 10);
 	temp = get_next_line(0);
 	while (ft_strncmp(temp, limiter, (ft_strlen(temp) - 1)) != 0)
 	{
+		write(1, "here_doc: ", 10);
 		ft_putstr_fd(temp, tmp);
 		if (temp)
 			free (temp);
@@ -50,5 +52,5 @@ int	here_doc_file(char *limiter)
 	}
 	if (close(tmp) == -1)
 		exit(EXIT_FAILURE);
-	return (open_infile("temporary"));
+	return (open_infile(".temporary"));
 }

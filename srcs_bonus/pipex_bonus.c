@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 17:28:06 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/15 15:59:48 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/19 16:58:42 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,25 @@ void	child_process(t_pipex *pipex, int index, int **pipes)
 	char	*valid_path;
 	t_child	c_path;
 
-	c_path = init_struct_child(pipex, index);
-	if (ft_strchr(c_path.options[0], '/'))
-		valid_path = c_path.options[0];
-	else
-		valid_path = checked_path(&c_path);
 	in = is_stdin(index, pipex);
 	out = is_stdout(index, pipex);
+	c_path = init_struct_child(pipex, index);
+	if (ft_strchr(c_path.options[0], '/'))
+		valid_path = tested_path(c_path.options[0]);
+	else
+		valid_path = checked_path(&c_path);
 	dup_stdin(index, pipes, in);
 	dup_stdout(index, pipes, out);
 	closing_management(pipex, pipes);
 	if (pipex->cases == 1)
-		unlink("temporary");
-	if (in == -1)
+		unlink(".temporary");
+	if (execve(valid_path, c_path.options, pipex->env) == -1)
+	{
+		if (valid_path)
+			free(valid_path);
+		free_char_array(c_path.options);
 		exit(EXIT_FAILURE);
-	execve(valid_path, c_path.options, pipex->env);
-	exit(EXIT_FAILURE);
+	}
 }
 
 int	parent_process(t_pipex *pipex)

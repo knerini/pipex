@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 17:12:57 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/15 18:18:50 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/19 18:25:57 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@ int	is_stdin(int index, t_pipex *pipex)
 	int	in;
 
 	if (index == 0)
+	{
 		in = pipex->fd_infile;
+		if (in == 0)
+			exit(EXIT_FAILURE);
+	}
 	else
 		in = 0;
 	return (in);
@@ -28,7 +32,11 @@ int	is_stdout(int index, t_pipex *pipex)
 	int	out;
 
 	if (index == (pipex->process - 1))
+	{
 		out = pipex->fd_outfile;
+		if (out == -1)
+			exit(EXIT_FAILURE);
+	}
 	else
 		out = 0;
 	return (out);

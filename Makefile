@@ -32,7 +32,7 @@ all:			$(NAME)
 
 bonus:			$(OBJS_B) $(HEADERS)
 					@make all -C ${LIBS}
-					@echo ${YELLOW}"'libft' updated =^.^=\n"${RESET}
+					@echo ${YELLOW}"'libft' is updated =^.^=\n"${RESET}
 					@${CC} -o ${NAME} ${OBJS_B} ${LIBS}libft.a
 					@echo ${GREEN}"><((º>"${RESET}${BLUE}"  ><((º>"${RESET}${MAGENTA}"  ><((º>"${RESET} \
 					${CYAN}"PiPeX BoNuS CoMPiLeD"${RESET} \
@@ -41,7 +41,7 @@ bonus:			$(OBJS_B) $(HEADERS)
 
 $(NAME):		$(OBJS) ${HEADERS}
 					@make all -C ${LIBS}
-					@echo ${YELLOW}"'libft' updated =^.^=\n"${RESET}
+					@echo ${YELLOW}"'libft' is updated =^.^=\n"${RESET}
 					@${CC} -o ${NAME} ${OBJS} ${LIBS}libft.a
 					@echo ${GREEN}"><((º>"${RESET}${BLUE}"  ><((º>"${RESET}${MAGENTA}"  ><((º>"${RESET} \
 					${CYAN}"PiPeX CoMPiLeD"${RESET} \

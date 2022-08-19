@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 13:53:47 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/14 18:05:01 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/19 14:35:41 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,6 @@ t_pipex	init_struct(char **av, char **envp, int ac)
 		pipex.cases = 0;
 	else if (ft_strncmp(av[1], "here_doc", 9) == 0 && ac >= 6)
 		pipex.cases = 1;
-	pipex.cmd = av;
-	pipex.env = envp;
-	pipex.env_path = parsing_env(envp);
-	pipex.ac = ac - 1;
-	pipex.fd_outfile = open_create_outfile_bonus(av[ac - 1], pipex.cases);
 	if (pipex.cases == 0)
 	{
 		pipex.process = ac - 3;
@@ -35,6 +30,11 @@ t_pipex	init_struct(char **av, char **envp, int ac)
 		pipex.process = ac - 4;
 		pipex.fd_infile = here_doc_file(av[2]);
 	}
+	pipex.fd_outfile = open_create_outfile_bonus(av[ac - 1], pipex.cases);
+	pipex.cmd = av;
+	pipex.env = envp;
+	pipex.env_path = parsing_env(envp);
+	pipex.ac = ac - 1;
 	return (pipex);
 }
 

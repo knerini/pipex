@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 17:46:13 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/15 15:50:27 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/19 16:00:18 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ t_child	init_struct_child(t_pipex *pipex, int index);
 
 //-------PATH-------
 char	*checked_path(t_child *c_path);
+char	*tested_path(char *abs_path);
 char	*parsing_env(char **envp);
 char	**construct_path(char *env_path, char *shell_cmd);
 char	**fill_array(char **split_tab, char *cmd);
