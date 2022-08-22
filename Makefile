@@ -1,7 +1,7 @@
 NAME			=	pipex
 
-SRCS			=	srcs/pipex.c srcs/struct.c srcs/path.c srcs/arrays.c srcs/files.c srcs/dup_std.c
-SRCS_B			=	srcs_bonus/arrays_bonus.c srcs_bonus/dup_std_bonus.c srcs_bonus/files_bonus.c srcs_bonus/parsing_bonus.c srcs_bonus/path_bonus.c srcs_bonus/pipex_bonus.c srcs_bonus/struct_bonus.c
+SRCS			=	srcs/pipex.c srcs/struct.c srcs/path.c srcs/arrays.c srcs/files.c srcs/dup_std.c srcs/closing_management.c
+SRCS_B			=	srcs_bonus/arrays_bonus.c srcs_bonus/dup_std_bonus.c srcs_bonus/files_bonus.c srcs_bonus/parsing_bonus.c srcs_bonus/path_bonus.c srcs_bonus/pipex_bonus.c srcs_bonus/struct_bonus.c srcs_bonus/closing_management_bonus.c
 
 OBJS			=	$(SRCS:.c=.o)
 OBJS_B			=	$(SRCS_B:.c=.o)

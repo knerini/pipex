@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 17:12:57 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/19 17:03:24 by knerini          ###   ########.fr       */
+/*   Updated: 2022/08/22 14:52:15 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,10 @@ int	open_create_outfile(char *name)
 	out = open(name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (out == -1)
 	{
+		ft_putstr_fd(name, 2);
+		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(strerror(errno), 2);
-		ft_printf(": %s\n", name);
+		ft_putstr_fd("\n", 2);
 		return (-1);
 	}
 	return (out);
@@ -63,16 +65,18 @@ int	open_infile(char *name)
 	in = open(name, O_RDONLY);
 	if (in == -1)
 	{
+		ft_putstr_fd(name, 2);
+		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(strerror(errno), 2);
-		ft_printf(": %s\n", name);
+		ft_putstr_fd("\n", 2);
 		return (0);
 	}
 	return (in);
 }
 
-void	closing_files(int in, int out)
+void	closing_files(t_pipex *pipex, int **pipes, int *pids)
 {
-	if (close(in) == -1 || close(out) == -1)
-		exit(EXIT_FAILURE);
+	if (close(pipex->fd_infile) == -1 || close(pipex->fd_outfile) == -1)
+		parent_exit(pipex, pids, pipes);
 	return ;
 }
