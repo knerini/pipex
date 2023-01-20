@@ -31,6 +31,20 @@ Pipex is a project learning how to reproduce the pipe ("|") behaviour.
 - ***cmd1*** ... cmdn : all commands to be executed in the order from 1 to n
 - ***here_doc EOF*** : reproducing the behaviour of << redirection in bash where EOF is the indicated limiter to specify the end of file to stop the here_doc. When here_doc is specified, the redirection in the outfile behave like the >> redirection in bash  
 
-### How test the program  
+### How to test the program  
 ➢ Mandatory part  
-- argument's number : if more or less than 4 arguments the program should redirect an error
+- ***argument's number*** : if more or less than 4 arguments, the program should redirect an error  
+
+➢ Bonus part  
+- ***argument's number*** : if here_doc and less than 5 arguments or if infile and less than 4 arguments, the programm should redirect an error
+- ***here_doc*** : test if the here_doc react like bash ; if the limiter is at the beginning, in the middle or at the end of another string, the limiter isn't interpreted like eof and here_doc shoul continue ; if the limiter is alone on a line, the limiter is interpreted as eof and the here_doc should stop here ; if ctrl+d is sent to here_doc, it should be interpreted like eof and here_doc shoul stop here
+- ***outfile with here_doc*** : the outfile is in append mode, so its previous content should not be erased and the new content should be added after the old content
+
+➢ Both parts  
+- ***infile*** : if doesn't exists or no permission allowed the program should redirect same type of error than bash
+- ***outfile*** : if already exists with allowed permission, should behave in trucated mode ; if already exists but no permission allowed the program should redirect same type of error than bash ; if not exists, should be created in truncated mode
+- ***cmd1*** : if command found, should be executed and its output should be sent to next cmd ; if not found, the programm should redirect the same type of error than bash ; if command found but wrong option, the program should redirect the same type of error than bash
+- ***last cmd*** : if command found, should be executed and its output should be sent to outfile ; if not found, the programm should redirect the same type of error than bash ; if command found but wrong option, the program should redirect the same type of error than bash
+- if there is a wrong infile/outfile the command related to shouldn't be executed but the other commands should
+- if there is many wrong commands, all the concerned commands should redirect their error
+- if there is a wrong infile/outfile and the command related to is wrong, only the file error should be redirected because the command isn't even executed
