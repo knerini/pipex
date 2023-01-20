@@ -6,7 +6,7 @@
 /*   By: knerini <knerini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 13:04:02 by knerini           #+#    #+#             */
-/*   Updated: 2022/08/19 15:06:16 by knerini          ###   ########.fr       */
+/*   Updated: 2023/01/20 15:54:26 by knerini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	here_doc_file(char *limiter)
 		exit(EXIT_FAILURE);
 	write(1, "here_doc: ", 10);
 	temp = get_next_line(0);
-	while (ft_strncmp(temp, limiter, (ft_strlen(temp) - 1)) != 0)
+	while (temp && ft_strncmp(temp, limiter, (ft_strlen(temp) - 1)) != 0)
 	{
 		write(1, "here_doc: ", 10);
 		ft_putstr_fd(temp, tmp);
